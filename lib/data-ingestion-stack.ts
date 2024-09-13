@@ -1,7 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
-import { join } from "path";
+import path = require("path");
 import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3";
 
 export class DataIngestionStack extends cdk.Stack {
@@ -19,7 +19,7 @@ export class DataIngestionStack extends cdk.Stack {
       this,
       "import-stock-data-handler",
       {
-        entry: join(__dirname, "./import-stock-data-handler.ts"),
+        entry: path.join(__dirname, "./import-stock-data-handler.ts"),
         environment: {
           STOCK_API_URL: "https://www.alphavantage.co/query?",
           API_KEY: "WXBVV78T8J6CFJEV",
