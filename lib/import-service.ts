@@ -13,7 +13,7 @@ export class ImportService {
 
   async persistStockData(fileName: string, data: string) {
     await this.s3.putObject({
-      Bucket: "stock-data",
+      Bucket: "stock-data-finvibe-eu-central-1",
       Key: fileName,
       Body: data,
     });
