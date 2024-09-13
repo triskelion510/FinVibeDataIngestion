@@ -24,6 +24,7 @@ export class DataIngestionStack extends cdk.Stack {
           STOCK_API_URL: "https://www.alphavantage.co/query?",
           API_KEY: "WXBVV78T8J6CFJEV",
         },
+        handler: "handler",
       }
     );
 
