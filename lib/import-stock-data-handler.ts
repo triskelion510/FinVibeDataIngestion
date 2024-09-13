@@ -6,7 +6,7 @@ interface Dependencies {
   importService: ImportService;
 }
 
-export const handlerBuilder = async (dependencies: Dependencies) => {
+export const handlerBuilder = (dependencies: Dependencies) => async () => {
   const { importService } = dependencies;
 
   if (!process.env.STOCK_API_URL) {
@@ -33,17 +33,19 @@ export const handlerBuilder = async (dependencies: Dependencies) => {
     throw new Error('Env variable "INTERVAL" not set');
   }
 
-  const data = await axios.get(
+  const response = await axios.get(
     `${process.env.STOCK_API_URL}function=${type}&symbol=${company}&interval=${interval}&apikey=${process.env.API_KEY}`
   );
 
-  if (!data) {
+  if (!response) {
     throw new Error("no data for request");
   }
 
-  const fileName = `${company}-historical-stock-data-${getCurrentDate()}.csv`;
+  console.log(`data received: ${JSON.stringify(response.data)}`);
 
-  await importService.persistStockData(fileName, JSON.stringify(data));
+  const fileName = `${company}-${type}-data-${getCurrentDate()}.json`;
+
+  await importService.persistStockData(fileName, JSON.stringify(response.data));
 };
 
-export const handler = handlerBuilder({ importService: new ImportService() });
+export const main = handlerBuilder({ importService: new ImportService() });
