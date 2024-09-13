@@ -11,11 +11,11 @@ export class ImportService {
     this.s3 = dependencies?.s3 ?? new S3({});
   }
 
-  async persistStockData(fileName: string, object: string) {
+  async persistStockData(fileName: string, data: string) {
     await this.s3.putObject({
-      Bucket: "data",
-      Key: "",
-      Body: "",
+      Bucket: "stock-data",
+      Key: fileName,
+      Body: data,
     });
   }
 }
